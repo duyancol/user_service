@@ -69,7 +69,7 @@ public class SecurityConfiguration {
                 .requestMatchers("/api/v1/cart/**").hasAuthority("USER")
                 .requestMatchers("/images/img/**").permitAll()
                 .requestMatchers("/api/v1/auth/google").permitAll()
-
+                .requestMatchers("/api/inventory/**").permitAll()
                 .requestMatchers("/api/v1/auth/**")
                 .permitAll()
 
