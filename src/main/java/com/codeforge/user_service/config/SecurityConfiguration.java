@@ -70,6 +70,7 @@ public class SecurityConfiguration {
                 .requestMatchers("/images/img/**").permitAll()
                 .requestMatchers("/api/v1/auth/google").permitAll()
                 .requestMatchers("/api/inventory/**").permitAll()
+                .requestMatchers("/api/player/**").permitAll()
                 .requestMatchers("/api/v1/auth/**")
                 .permitAll()
 
