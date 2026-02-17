@@ -71,6 +71,7 @@ public class SecurityConfiguration {
                 .requestMatchers("/api/v1/auth/google").permitAll()
                 .requestMatchers("/api/inventory/**").permitAll()
                 .requestMatchers("/api/player/**").permitAll()
+                .requestMatchers("/api/equipment/**").permitAll()
                 .requestMatchers("/api/v1/auth/**")
                 .permitAll()
 

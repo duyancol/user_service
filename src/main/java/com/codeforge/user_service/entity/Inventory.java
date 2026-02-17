@@ -19,5 +19,7 @@ public class Inventory {
     private String itemId;
 
     private int amount;
+    private Long equipmentInstanceId; // nếu là equipment
+
 }
 
