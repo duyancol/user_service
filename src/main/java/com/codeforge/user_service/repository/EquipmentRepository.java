@@ -8,5 +8,6 @@ import java.util.List;
 
 public interface EquipmentRepository extends JpaRepository<EquipmentInstance, Long> {
     List<EquipmentInstance> findByUserId(Long userId);
+    List<EquipmentInstance> findByUserIdAndEquippedTrue(Long userId);
 }
 

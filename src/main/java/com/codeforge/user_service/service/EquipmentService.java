@@ -232,4 +232,53 @@ public class EquipmentService {
                 .equipped(e.isEquipped())
                 .build();
     }
+    // ================= EQUIP =================
+    public EquipmentResponse equip(Long userId, Long instanceId) {
+
+        EquipmentInstance item = equipmentRepository.findById(instanceId)
+                .orElseThrow(() -> new RuntimeException("Equipment not found"));
+
+        if (!item.getUserId().equals(userId))
+            throw new RuntimeException("Not owner");
+
+        item.setEquipped(true);
+
+        equipmentRepository.save(item);
+
+        return mapToResponse(item);
+    }
+
+    // ================= UNEQUIP =================
+    public EquipmentResponse unequip(Long instanceId) {
+
+        EquipmentInstance item = equipmentRepository.findById(instanceId)
+                .orElseThrow(() -> new RuntimeException("Equipment not found"));
+
+        item.setEquipped(false);
+
+        equipmentRepository.save(item);
+
+        return mapToResponse(item);
+    }
+
+    // ================= GET EQUIPPED =================
+    public List<EquipmentResponse> getEquipped(Long userId) {
+
+        return equipmentRepository.findByUserIdAndEquippedTrue(userId)
+                .stream()
+                .map(this::mapToResponse)
+                .toList();
+    }
+    private EquipmentResponse mapToResponse(EquipmentInstance e) {
+
+        return EquipmentResponse.builder()
+                .id(e.getId())
+                .itemId(e.getItemId())
+                .quality(e.getQuality())
+                .mainStat(e.getMainStat())
+                .mainValue(e.getMainValue())
+                .subStatsJson(e.getSubStatsJson())
+                .equipped(e.isEquipped())
+                .build();
+    }
 }
