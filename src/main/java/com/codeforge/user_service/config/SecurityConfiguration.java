@@ -72,6 +72,8 @@ public class SecurityConfiguration {
                 .requestMatchers("/api/inventory/**").permitAll()
                 .requestMatchers("/api/player/**").permitAll()
                 .requestMatchers("/api/equipment/**").permitAll()
+                .requestMatchers("/api/currency/**").permitAll()
+
                 .requestMatchers("/api/v1/auth/**")
                 .permitAll()
 

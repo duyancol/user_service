@@ -829,6 +829,7 @@ package com.codeforge.user_service.auth;
 import com.codeforge.user_service.config.JwtService;
 import com.codeforge.user_service.dto.UserDto;
 
+import com.codeforge.user_service.service.CurrencyService;
 import com.codeforge.user_service.service.PlayerService;
 import com.codeforge.user_service.token.Token;
 import com.codeforge.user_service.token.TokenRepository;
@@ -880,6 +881,8 @@ public class AuthenticationController {
     private final JwtService jwtService;
     @Autowired
     private final PlayerService playerService;
+    @Autowired
+    private final CurrencyService currencyService;
     //    @PostMapping("/google")
 //    public ResponseEntity<?> authenticateWithGoogle(
 //            @RequestBody Map<String, String> body
@@ -1022,10 +1025,8 @@ public class AuthenticationController {
                         .build());
             }
 // Tạo player nếu chưa tồn tại
-            playerService.createPlayerIfNotExists(user);
-
-            revokeAllUserTokens(user);
-
+            playerService.createPlayerIfNotExists(user);revokeAllUserTokens(user);
+            currencyService.createCurrencyIfNotExists(user.getId().longValue());
             Map<String, Object> extraClaims = new HashMap<>();
             extraClaims.put("role", user.getRole().name());
 
