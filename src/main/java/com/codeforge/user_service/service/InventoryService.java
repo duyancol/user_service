@@ -17,7 +17,29 @@ public class InventoryService {
         return inventoryRepository.findByUserId(userId);
     }
 
-    public void addItem(Long userId, String itemId, int amount) {
+//    public void addItem(Long userId, String itemId, int amount) {
+//
+//        var slot = inventoryRepository
+//                .findByUserIdAndItemId(userId, itemId);
+//
+//        if (slot.isPresent()) {
+//            var inv = slot.get();
+//            inv.setAmount(inv.getAmount() + amount);
+//            inventoryRepository.save(inv);
+//        } else {
+//            Inventory inv = new Inventory();
+//            inv.setUserId(userId);
+//            inv.setItemId(itemId);
+//            inv.setAmount(amount);
+//            inventoryRepository.save(inv);
+//        }
+//    }
+public void addItem(Long userId, String itemId, int amount) {
+
+    boolean isStackable = itemId.startsWith("item_"); // material
+    // equip_ là equipment
+
+    if (isStackable) {
 
         var slot = inventoryRepository
                 .findByUserIdAndItemId(userId, itemId);
@@ -33,8 +55,21 @@ public class InventoryService {
             inv.setAmount(amount);
             inventoryRepository.save(inv);
         }
-    }
 
+    } else {
+
+        // equipment → mỗi cái 1 row
+        for (int i = 0; i < amount; i++) {
+
+            Inventory inv = new Inventory();
+            inv.setUserId(userId);
+            inv.setItemId(itemId);
+            inv.setAmount(1);
+
+            inventoryRepository.save(inv);
+        }
+    }
+}
     public void removeItem(Long userId, String itemId, int amount) {
 
         var slot = inventoryRepository
