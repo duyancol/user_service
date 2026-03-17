@@ -18,6 +18,11 @@ public class EnhanceConfig {
         SUCCESS_RATE.put(4, 30);
         SUCCESS_RATE.put(5, 15);
         SUCCESS_RATE.put(6, 5);
+        SUCCESS_RATE.put(7, 4);
+        SUCCESS_RATE.put(8, 3);
+        SUCCESS_RATE.put(9, 3);
+        SUCCESS_RATE.put(10, 2);
+        SUCCESS_RATE.put(11, 1);
     }
 
     public int getRate(int level) {
