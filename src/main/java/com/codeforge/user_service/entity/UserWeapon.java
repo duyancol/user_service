@@ -17,6 +17,10 @@ public class UserWeapon {
     private String weaponId; // 🔥 đổi sang String
 
     private int enhanceLevel;
+    private int level = 1;        // cấp hiện tại
+    private int exp = 0;          // exp hiện tại
 
+
+    private int ascend = 0;       // bậc (0 -> 5 chẳng hạn)
     // getter setter
 }

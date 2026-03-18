@@ -20,9 +20,11 @@ public class WeaponService {
     private InventoryRepository inventoryRepository;
     @Autowired
     private EnhanceConfig config;
-
+    @Autowired
+    private WeaponConfigService weaponConfigService;
     private Random random = new Random();
-
+    @Autowired
+    private CurrencyService currencyService;
     // 👉 LẤY THÔNG TIN
     public UserWeapon getWeapon(Long userId, String weaponId) {
         return repo.findByUserIdAndWeaponId(userId, weaponId)
@@ -84,6 +86,7 @@ public class WeaponService {
 
         return new EnhanceResult(success, weapon.getEnhanceLevel(), rate, roll, remainStone);
     }
+
     public UserWeapon giveWeapon(Long userId, String weaponId) {
 
         Optional<UserWeapon> existing = repo.findByUserIdAndWeaponId(userId, weaponId);
@@ -100,6 +103,7 @@ public class WeaponService {
 
         return repo.save(w);
     }
+
     public UserWeapon equipWeapon(Long userId, String itemId) {
 
         // 👉 check inventory có item không
@@ -123,5 +127,144 @@ public class WeaponService {
         weapon.setEnhanceLevel(0);
 
         return repo.save(weapon);
+    }
+
+    public UserWeapon levelUp(Long userId, String weaponId, int expStoneUse) {
+
+        UserWeapon weapon = getWeapon(userId, weaponId);
+
+        if (weapon.getLevel() >= 100) {
+            throw new RuntimeException("Đã max level");
+        }
+
+        // 🔥 check chặn tiến bậc
+        int requiredAscend = weapon.getLevel() / 20;
+        if (weapon.getAscend() < requiredAscend) {
+            throw new RuntimeException("Cần tiến bậc để tăng cấp tiếp");
+        }
+
+        // 👉 lấy đá exp
+        var expItemOpt = inventoryRepository.findByUserIdAndItemId(userId, "item_exp");
+
+        if (expItemOpt.isEmpty()) {
+            throw new RuntimeException("Không có đá exp");
+        }
+
+        var expItem = expItemOpt.get();
+
+        if (expItem.getAmount() < expStoneUse) {
+            throw new RuntimeException("Không đủ đá exp");
+        }
+
+        // 🔥 mỗi đá = 100 exp (tuỳ game m chỉnh)
+        int gainedExp = expStoneUse * 100;
+
+        weapon.setExp(weapon.getExp() + gainedExp);
+
+        // 🔥 trừ item
+        expItem.setAmount(expItem.getAmount() - expStoneUse);
+        inventoryRepository.save(expItem);
+
+        // 🔥 level up loop
+        while (weapon.getExp() >= getRequiredExp(weapon.getLevel())
+                && weapon.getLevel() < 100) {
+
+            weapon.setExp(weapon.getExp() - getRequiredExp(weapon.getLevel()));
+            weapon.setLevel(weapon.getLevel() + 1);
+
+            // ❗ chặn tại mốc 20/40/60/80
+            if (weapon.getLevel() % 20 == 0) {
+                break;
+            }
+        }
+
+        return repo.save(weapon);
+    }
+
+    public UserWeapon ascend(Long userId, String weaponId) {
+
+        UserWeapon weapon = getWeapon(userId, weaponId);
+
+        int level = weapon.getLevel();
+        int currentAscend = weapon.getAscend();
+
+        // 🔥 check level
+        if (level < (currentAscend + 1) * 20) {
+            throw new RuntimeException("Chưa đủ cấp để tiến bậc");
+        }
+
+        // 🔥 lấy config
+        WeaponUpgradeConfig cfg = weaponConfigService.get(weaponId);
+        AscendCost cost = cfg.getAscendCosts().get(currentAscend);
+
+        if (cost == null) {
+            throw new RuntimeException("Không có config tiến bậc");
+        }
+
+        // 🔥 1. CHECK GOLD
+        var currency = currencyService.getCurrency(userId);
+
+        if (currency.getGold() < cost.getGold()) {
+            throw new RuntimeException("Không đủ vàng");
+        }
+
+        // 🔥 2. CHECK MATERIALS
+        for (AscendMaterial mat : cost.getMaterials()) {
+
+            var itemOpt = inventoryRepository
+                    .findByUserIdAndItemId(userId, mat.getItemId());
+
+            if (itemOpt.isEmpty() || itemOpt.get().getAmount() < mat.getAmount()) {
+                throw new RuntimeException("Thiếu nguyên liệu: " + mat.getItemId());
+            }
+        }
+
+        // 🔥 3. TRỪ GOLD
+        currencyService.subtractGold(userId, cost.getGold());
+        // 🔥 4. TRỪ MATERIAL
+        for (AscendMaterial mat : cost.getMaterials()) {
+
+            var item = inventoryRepository
+                    .findByUserIdAndItemId(userId, mat.getItemId())
+                    .get();
+
+            item.setAmount(item.getAmount() - mat.getAmount());
+
+            if (item.getAmount() <= 0) {
+                inventoryRepository.delete(item);
+            } else {
+                inventoryRepository.save(item);
+            }
+        }
+
+        // 🔥 5. tăng bậc
+        weapon.setAscend(currentAscend + 1);
+
+        return repo.save(weapon);
+    }
+
+    private int getRequiredExp(int level) {
+        return 100 + level * 20; // scale nhẹ
+    }
+
+    public AscendCost getAscendCost(Long userId, String weaponId) {
+
+        UserWeapon weapon = getWeapon(userId, weaponId);
+
+        int currentAscend = weapon.getAscend();
+
+        WeaponUpgradeConfig cfg = weaponConfigService.get(weaponId);
+
+        if (cfg.getAscendCosts() == null) {
+            throw new RuntimeException("AscendCosts bị null");
+        }
+
+        AscendCost cost = cfg.getAscendCosts().get(currentAscend);
+
+        if (cost == null) {
+            throw new RuntimeException("Không có config cho ascend level: " + currentAscend);
+        }
+
+        return cost;
     }
 }

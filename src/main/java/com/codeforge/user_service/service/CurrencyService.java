@@ -12,6 +12,7 @@ public class CurrencyService {
 
     @Autowired
     private PlayerCurrencyRepository repo;
+
     public void createCurrencyIfNotExists(Long playerId) {
 
         Optional<PlayerCurrency> currency = repo.findById(playerId);

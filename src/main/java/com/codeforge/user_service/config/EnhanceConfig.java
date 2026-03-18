@@ -13,16 +13,16 @@ public class EnhanceConfig {
     static {
         SUCCESS_RATE.put(0, 100);
         SUCCESS_RATE.put(1, 90);
-        SUCCESS_RATE.put(2, 75);
-        SUCCESS_RATE.put(3, 60);
-        SUCCESS_RATE.put(4, 45);
-        SUCCESS_RATE.put(5, 30);
-        SUCCESS_RATE.put(6, 20);
-        SUCCESS_RATE.put(7, 12);
-        SUCCESS_RATE.put(8, 8);
-        SUCCESS_RATE.put(9, 5);
-        SUCCESS_RATE.put(10, 3);
-        SUCCESS_RATE.put(11, 2);
+        SUCCESS_RATE.put(2, 70);
+        SUCCESS_RATE.put(3, 50);
+        SUCCESS_RATE.put(4, 30);
+        SUCCESS_RATE.put(5, 15);
+        SUCCESS_RATE.put(6, 5);
+        SUCCESS_RATE.put(7, 4);
+        SUCCESS_RATE.put(8, 3);
+        SUCCESS_RATE.put(9, 3);
+        SUCCESS_RATE.put(10, 2);
+        SUCCESS_RATE.put(11, 1);
     }
 
     public int getRate(int level) {

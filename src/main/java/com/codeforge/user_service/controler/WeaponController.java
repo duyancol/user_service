@@ -1,5 +1,6 @@
 package com.codeforge.user_service.controler;
 
+import com.codeforge.user_service.dto.AscendCostResponse;
 import com.codeforge.user_service.dto.EnhanceResult;
 import com.codeforge.user_service.entity.UserWeapon;
 import com.codeforge.user_service.service.WeaponService;
@@ -42,5 +43,29 @@ public class WeaponController {
             @RequestParam String itemId
     ) {
         return service.equipWeapon(userId, itemId);
+    }
+    @PostMapping("/{weaponId}/ascend")
+    public UserWeapon ascend(
+            @RequestParam Long userId,
+            @PathVariable String weaponId
+    ) {
+        return service.ascend(userId, weaponId);
+    }
+    @GetMapping("/{weaponId}/ascend-cost")
+    public AscendCostResponse getAscendCost(
+            @RequestParam Long userId,
+            @PathVariable String weaponId
+    ) {
+        var cost = service.getAscendCost(userId, weaponId);
+
+        return new AscendCostResponse(cost.getGold(), cost.getMaterials());
+    }
+    @PostMapping("/{weaponId}/level-up")
+    public UserWeapon levelUp(
+            @RequestParam Long userId,
+            @PathVariable String weaponId,
+            @RequestParam int expStoneUse
+    ) {
+        return service.levelUp(userId, weaponId, expStoneUse);
     }
 }
