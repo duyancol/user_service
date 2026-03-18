@@ -12,15 +12,15 @@
       "1": {
         "gold": 3000,
         "materials": [
-          { "itemId": "stone_b", "amount": 10 },
-          { "itemId": "core_fire", "amount": 2 }
+          { "itemId": "item_stone_fire", "amount": 10 },
+          { "itemId": "item_ant_claw", "amount": 2 }
         ]
       },
       "2": {
         "gold": 8000,
         "materials": [
-          { "itemId": "stone_c", "amount": 20 },
-          { "itemId": "core_fire", "amount": 3 }
+          { "itemId": "item_stone_fire", "amount": 20 },
+          { "itemId": "item_ant_claw", "amount": 3 }
         ]
       }
     }
