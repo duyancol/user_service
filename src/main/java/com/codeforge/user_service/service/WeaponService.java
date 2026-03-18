@@ -239,7 +239,8 @@ public class WeaponService {
 
         // 🔥 5. tăng bậc
         weapon.setAscend(currentAscend + 1);
-
+        weapon.setLevel(weapon.getLevel() + 1);
+        weapon.setExp(0);
         return repo.save(weapon);
     }
 
