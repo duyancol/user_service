@@ -47,12 +47,48 @@
     }
   },
   {
-    "weaponId": "bow_01",
+    "weaponId": "eqip_light",
     "ascendCosts": {
       "0": {
-        "gold": 800,
+        "gold": 8000,
         "materials": [
-          { "itemId": "wood", "amount": 5 }
+          { "itemId": "item_stone_light", "amount": 5 },
+          { "itemId": "item_ant_gold", "amount": 2 }
+        ]
+      },
+      "1": {
+        "gold": 15000,
+        "materials": [
+          { "itemId": "item_stone_light", "amount": 10 },
+          { "itemId": "item_ant_gold", "amount": 4 }
+        ]
+      },
+      "2": {
+        "gold": 24000,
+        "materials": [
+          { "itemId": "item_stone_light", "amount": 20 },
+          { "itemId": "item_ant_gold", "amount": 8 }
+        ]
+      },
+      "3": {
+        "gold": 40000,
+        "materials": [
+          { "itemId": "item_stone_light", "amount": 30 },
+          { "itemId": "item_ant_gold", "amount": 12 }
+        ]
+      },
+      "4": {
+        "gold": 52000,
+        "materials": [
+          { "itemId": "item_stone_light", "amount": 40 },
+          { "itemId": "item_ant_gold", "amount": 16 }
+        ]
+      },
+      "5": {
+        "gold": 122000,
+        "materials": [
+          { "itemId": "item_stone_light", "amount": 50 },
+          { "itemId": "item_ant_gold", "amount": 20 }
         ]
       }
     }
