@@ -157,7 +157,7 @@ public class WeaponService {
         }
 
         // 🔥 mỗi đá = 100 exp (tuỳ game m chỉnh)
-        int gainedExp = expStoneUse * 100;
+        int gainedExp = expStoneUse * 10;
 
         weapon.setExp(weapon.getExp() + gainedExp);
 
