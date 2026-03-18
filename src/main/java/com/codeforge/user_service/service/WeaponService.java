@@ -125,7 +125,7 @@ public class WeaponService {
         weapon.setUserId(userId);
         weapon.setWeaponId(itemId); // 🔥 dùng itemId luôn
         weapon.setEnhanceLevel(0);
-
+        weapon.setLevel(1);
         return repo.save(weapon);
     }
 

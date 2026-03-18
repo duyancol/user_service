@@ -3,24 +3,45 @@
     "weaponId": "eqip_sword",
     "ascendCosts": {
       "0": {
-        "gold": 1000,
+        "gold": 8000,
         "materials": [
           { "itemId": "item_stone_fire", "amount": 5 },
-          { "itemId": "item_ant_claw", "amount": 1 }
+          { "itemId": "item_ant_claw", "amount": 12 }
         ]
       },
       "1": {
-        "gold": 3000,
+        "gold": 15000,
         "materials": [
           { "itemId": "item_stone_fire", "amount": 10 },
-          { "itemId": "item_ant_claw", "amount": 2 }
+          { "itemId": "item_ant_claw", "amount": 24 }
         ]
       },
       "2": {
-        "gold": 8000,
+        "gold": 24000,
         "materials": [
           { "itemId": "item_stone_fire", "amount": 20 },
-          { "itemId": "item_ant_claw", "amount": 3 }
+          { "itemId": "item_ant_claw", "amount": 32 }
+        ]
+      },
+      "3": {
+        "gold": 40000,
+        "materials": [
+          { "itemId": "item_stone_fire", "amount": 30 },
+          { "itemId": "item_ant_claw", "amount": 44 }
+        ]
+      },
+      "4": {
+        "gold": 52000,
+        "materials": [
+          { "itemId": "item_stone_fire", "amount": 40 },
+          { "itemId": "item_ant_claw", "amount": 64 }
+        ]
+      },
+      "5": {
+        "gold": 122000,
+        "materials": [
+          { "itemId": "item_stone_fire", "amount": 50 },
+          { "itemId": "item_ant_claw", "amount": 80 }
         ]
       }
     }
